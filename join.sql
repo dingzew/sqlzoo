@@ -98,9 +98,11 @@ FROM
   game.team1,
   CASE WHEN teamid=team1 THEN COUNT(gtime) ELSE 0 END score1,
   game.team2,
-  CASE WHEN teamid=team2 THEN COUNT(gtime) ELSE 0 END score2
-  FROM goal LEFT JOIN game ON matchid = id
-  GROUP BY mdate, team1, team2, teamid) table1
-GROUP BY mdate, team1, team2
+  CASE WHEN teamid=team2 THEN COUNT(gtime) ELSE 0 END score2,
+  matchid
+  FROM goal RIGHT JOIN game ON matchid = id
+  GROUP BY mdate, team1, team2, teamid, matchid) table1
+GROUP BY mdate, matchid, team1, team2
+ORDER by mdate, matchid, team1, team2
 
       
